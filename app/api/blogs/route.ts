@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import localImages from "@/local-image-paths.json"
 
 // This tells Next.js to dynamically generate this route at request time
 export const dynamic = 'force-dynamic';
@@ -31,6 +32,7 @@ export async function GET(request: Request) {
 
     // Apply fallback system to ensure all fields have values
     const processedBlogs = blogDataJson.map((post: any, index: number) => {
+      const localImage = localImages.blogs?.[String(index) as keyof typeof localImages.blogs];
       // Ensure fallback defaults for all fields regardless of index
       const baseFallback = {
         title: "DEFAULT: Dumpster Rental Tips",
@@ -56,7 +58,7 @@ export async function GET(request: Request) {
         slug: getValueOrDefault(post?.slug, baseFallback.slug),
         h1: getValueOrDefault(post?.h1, baseFallback.h1),
         description: getValueOrDefault(post?.description, baseFallback.description),
-        postImageSrc: getValueOrDefault(post?.postImageSrc, baseFallback.postImageSrc),
+        postImageSrc: getValueOrDefault(`/blogs/${localImage.postImageSrc}` , baseFallback.postImageSrc),
         postImageAlt: getValueOrDefault(post?.postImageAlt, baseFallback.postImageAlt),
         publishedAt: getValueOrDefault(post?.publishedAt, baseFallback.publishedAt),
         body: getValueOrDefault(post?.body, baseFallback.body),

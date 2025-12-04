@@ -1,4 +1,5 @@
 // DEFAULT: Import statements with enhanced error handling for all JSON content files
+import localImages from "@/local-image-paths.json"
 let aboutData: any;
 let blogDataJson: any;
 let blogCategoryMetaJson: any;
@@ -343,6 +344,7 @@ function ensureTypesDataLists(serviceData: any): any {
     Array.isArray(serviceData.lists) && serviceData.lists.length > 0
       ? serviceData.lists.map((item: any, index: number) => {
           const typedItem = item as any; // Handle inconsistent data structure
+          const localImageList = localImages.typesPage.lists?.[String(index) as keyof typeof localImages.typesPage.lists];
           return {
             title: getValueOrDefault(
               typedItem?.title,
@@ -369,7 +371,8 @@ function ensureTypesDataLists(serviceData: any): any {
                 "DEFAULT: Our dumpsters are perfect for projects in [location].",
             ),
             h2Image: getValueOrDefault(
-              typedItem?.h2Image,
+              localImageList && 'h2Image' in localImageList ? `/typesPage/${localImageList.h2Image}` : undefined,
+              typedItem?.h2Image ||
               defaultTypesData.lists[index]?.h2Image ||
                 "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
             ),
@@ -383,7 +386,8 @@ function ensureTypesDataLists(serviceData: any): any {
               defaultTypesData.lists[index]?.slug || "default-dumpster",
             ),
             imageUrl: getValueOrDefault(
-              typedItem?.imageUrl,
+              localImageList && 'imageUrl' in localImageList ? `/typesPage/${localImageList.imageUrl}` : undefined,
+              typedItem?.imageUrl ||
               defaultTypesData.lists[index]?.imageUrl ||
                 "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
             ),
@@ -398,7 +402,8 @@ function ensureTypesDataLists(serviceData: any): any {
                 "DEFAULT: <p>Perfect for various projects and cleanouts.</p>",
             ),
             overViewImage: getValueOrDefault(
-              typedItem?.overViewImage,
+              localImageList && 'overViewImage' in localImageList ? `/typesPage/${localImageList.overViewImage}` : undefined,
+              typedItem?.overViewImage ||
               defaultTypesData.lists[index]?.overViewImage ||
                 "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
             ),
@@ -503,7 +508,8 @@ function ensureTypesDataLists(serviceData: any): any {
                 "DEFAULT: Ideal Projects for This Dumpster:",
             ),
             idealImage: getValueOrDefault(
-              typedItem?.idealImage,
+              localImageList && 'idealImage' in localImageList ? `/typesPage/${localImageList.idealImage}` : undefined,
+              typedItem?.idealImage ||
               defaultTypesData.lists[index]?.idealImage ||
                 "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
             ),
@@ -632,51 +638,55 @@ function ensureServiceDataLists(serviceData: any): any {
 
   const ensuredLists =
     Array.isArray(serviceData.lists) && serviceData.lists.length > 0
-      ? serviceData.lists.map((item: any, index: number) => ({
-          title: getValueOrDefault(
-            item?.title,
-            defaultServiceData.lists[index]?.title ||
-              "DEFAULT: Dumpster Rental Service",
-          ),
-          description: getValueOrDefault(
-            item?.description,
-            defaultServiceData.lists[index]?.description ||
-              "DEFAULT: Professional dumpster rental service in [location].",
-          ),
-          h2: getValueOrDefault(
-            item?.h2,
-            defaultServiceData.lists[index]?.h2 ||
-              "DEFAULT: Professional Service",
-          ),
-          p2: getValueOrDefault(
-            item?.p2,
-            defaultServiceData.lists[index]?.p2 ||
-              "DEFAULT: Quality dumpster rental service in [location].",
-          ),
-          h3: getValueOrDefault(
-            item?.h3,
-            defaultServiceData.lists[index]?.h3 || "DEFAULT: Service Benefits",
-          ),
-          p3: getValueOrDefault(
-            item?.p3,
-            defaultServiceData.lists[index]?.p3 ||
-              "DEFAULT: Professional solutions for all your needs.",
-          ),
-          seoContent: getValueOrDefault(
-            item?.seoContent,
-            defaultServiceData.lists[index]?.seoContent ||
-              "DEFAULT: <h2>Professional Dumpster Rental Service</h2><p>Quality service in [location].</p>",
-          ),
-          slug: getValueOrDefault(
-            item?.slug,
-            defaultServiceData.lists[index]?.slug || "default-service",
-          ),
-          imageUrl: getValueOrDefault(
-            item?.imageUrl,
-            defaultServiceData.lists[index]?.imageUrl ||
-              "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
-          ),
-        }))
+      ? serviceData.lists.map((item: any, index: number) => {
+          const localImageList = localImages.servicePage.lists?.[String(index) as keyof typeof localImages.servicePage.lists];
+          return {
+            title: getValueOrDefault(
+              item?.title,
+              defaultServiceData.lists[index]?.title ||
+                "DEFAULT: Dumpster Rental Service",
+            ),
+            description: getValueOrDefault(
+              item?.description,
+              defaultServiceData.lists[index]?.description ||
+                "DEFAULT: Professional dumpster rental service in [location].",
+            ),
+            h2: getValueOrDefault(
+              item?.h2,
+              defaultServiceData.lists[index]?.h2 ||
+                "DEFAULT: Professional Service",
+            ),
+            p2: getValueOrDefault(
+              item?.p2,
+              defaultServiceData.lists[index]?.p2 ||
+                "DEFAULT: Quality dumpster rental service in [location].",
+            ),
+            h3: getValueOrDefault(
+              item?.h3,
+              defaultServiceData.lists[index]?.h3 || "DEFAULT: Service Benefits",
+            ),
+            p3: getValueOrDefault(
+              item?.p3,
+              defaultServiceData.lists[index]?.p3 ||
+                "DEFAULT: Professional solutions for all your needs.",
+            ),
+            seoContent: getValueOrDefault(
+              item?.seoContent,
+              defaultServiceData.lists[index]?.seoContent ||
+                "DEFAULT: <h2>Professional Dumpster Rental Service</h2><p>Quality service in [location].</p>",
+            ),
+            slug: getValueOrDefault(
+              item?.slug,
+              defaultServiceData.lists[index]?.slug || "default-service",
+            ),
+            imageUrl: getValueOrDefault(
+              localImageList && 'imageUrl' in localImageList ? `/servicePage/${localImageList.imageUrl}` : undefined,
+              item?.imageUrl ||
+                defaultServiceData.lists[index]?.imageUrl ||
+                "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
+            ),
+          };
+        })
       : defaultServiceData.lists;
 
   return {
@@ -736,14 +746,14 @@ const contactContent: any = {
   ),
   zipCode: getValueOrDefault(contactDataJson?.zipCode, "DEFAULT: 12345"),
   bannerImage: getValueOrDefault(
-    contactDataJson?.bannerImage,
+    `/ContactInfo/${localImages.ContactInfo.bannerImage}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   logoImage: getValueOrDefault(
-    contactDataJson?.logoImage,
+    `/ContactInfo/${localImages.ContactInfo.logoImage}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
-  favicon: getValueOrDefault(contactDataJson?.favicon, "DEFAULT: /favicon.ico"),
+  favicon: getValueOrDefault((localImages.ContactInfo as any)?.favicon ? `/ContactInfo/${(localImages.ContactInfo as any).favicon}` : undefined, "DEFAULT: /favicon.ico"),
   googleAnalytics: getValueOrDefault(
     contactDataJson?.googleAnalytics,
     "DEFAULT: GA_MEASUREMENT_ID",
@@ -780,7 +790,7 @@ const aboutContent: any = {
     "DEFAULT: Your Trusted Partner for Waste Management Solutions",
   ),
   bannerImage: getValueOrDefault(
-    aboutBannerImage,
+    `/about/${localImages.about.bannerImage}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   h1Banner: getValueOrDefault(
@@ -796,7 +806,7 @@ const aboutContent: any = {
     "DEFAULT: We provide affordable dumpster rental in [location] for homeowners, businesses, real estate professionals, and contractors. Whether you're managing a renovation, clearing out an estate, or handling a construction site, our roll off dumpsters are ready to simplify your cleanup. From 10-yard to 40-yard bins, we deliver the right size dumpster based on your project needs. With flexible rental periods, same-day or next-day delivery, and no hidden fees, our service is trusted by customers who need fast and stress-free solutions.",
   ),
   h2Image: getValueOrDefault(
-    h2Image,
+    `/about/${localImages.about.h2Image}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   missionSection: ensureMissionSection(missionSection),
@@ -872,6 +882,8 @@ const blogContent: any = {
         body: "DEFAULT: <p>Blog content about dumpster rental services.</p>"
       };
       
+      const localImage = localImages.blogs?.[String(index) as keyof typeof localImages.blogs];
+      
       return {
         title: getValueOrDefault(
           post?.title,
@@ -906,8 +918,8 @@ const blogContent: any = {
           defaultBlogPosts[index]?.description || baseFallback.description,
         ),
         postImageSrc: getValueOrDefault(
-          post?.postImageSrc,
-          defaultBlogPosts[index]?.postImageSrc || baseFallback.postImageSrc,
+         `/blogs/${localImage.postImageSrc}`,
+          `/blogs/${localImage.postImageSrc}` ,
         ),
         postImageAlt: getValueOrDefault(
           post?.postImageAlt,
@@ -951,6 +963,7 @@ const blogCategoryMetaMap: any = (() => {
   for (const [key, value] of Object.entries(blogCategoryMetaJson)) {
     if (value && typeof value === "object") {
       const categoryData = value as any;
+      const localImage = localImages.blogsCategoryMetas?.[key as keyof typeof localImages.blogsCategoryMetas];
       processedMetas[key] = {
         title: getValueOrDefault(
           categoryData?.title,
@@ -961,7 +974,8 @@ const blogCategoryMetaMap: any = (() => {
           `DEFAULT: Learn about ${key} related to dumpster rental in [location].`,
         ),
         bannerImage: getValueOrDefault(
-          categoryData?.bannerImage,
+           `/blogsCategoryMetas/${localImage.bannerImage}`,
+          categoryData?.bannerImage ||
           "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
         ),
       };
@@ -1012,7 +1026,7 @@ const contactPageContent: any = {
     "DEFAULT: Ready to Get Started? Contact Us Today!",
   ),
   bannerImage: getValueOrDefault(
-    contactPageBannerImage,
+    `/contact/${localImages.contact.bannerImage}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   h1Banner: getValueOrDefault(
@@ -1025,7 +1039,7 @@ const contactPageContent: any = {
   ),
   h2: getValueOrDefault(h2, "DEFAULT: Get Your Free Quote Today"),
   h2Image: getValueOrDefault(
-    contacth2Image,
+    `/contact/${localImages.contact.h2Image}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   p2: getValueOrDefault(
@@ -1038,7 +1052,7 @@ const contactPageContent: any = {
     "DEFAULT: Fast delivery, competitive pricing, and excellent customer service make us the top choice for dumpster rental in [location]. Call [phone] to experience the difference.",
   ),
   h3Image: getValueOrDefault(
-    h3Image,
+    `/contact/${localImages.contact.h3Image}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   ctaText: getValueOrDefault(
@@ -1189,7 +1203,7 @@ const homePageContent: any = {
     "DEFAULT: Fast, Reliable, Affordable",
   ),
   bannerImage: getValueOrDefault(
-    homeBannerImage,
+    `/home/${localImages.home.bannerImage}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   h1Banner: getValueOrDefault(
@@ -1209,7 +1223,7 @@ const homePageContent: any = {
     "DEFAULT: We provide the fastest, most reliable dumpster rental service in [location] with competitive pricing and exceptional customer service.",
   ),
   h2Image: getValueOrDefault(
-    homeh2Image,
+    `/home/${localImages.home.h2Image}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   h3: getValueOrDefault(
@@ -1221,7 +1235,7 @@ const homePageContent: any = {
     "DEFAULT: From residential cleanouts to commercial construction projects, we have the right dumpster size for your needs in [location].",
   ),
   h3Image: getValueOrDefault(
-    homeh3Image,
+    `/home/${localImages.home.h3Image}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   mapLink: getValueOrDefault(
@@ -1448,7 +1462,7 @@ const locationPageContent: any = {
     "DEFAULT: Serving [location] and Surrounding Areas",
   ),
   bannerImage: getValueOrDefault(
-    locationBannerImage,
+    `/location/${localImages.location.bannerImage}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   h1Banner: getValueOrDefault(
@@ -1530,7 +1544,7 @@ const brandsContent: any = {
     "DEFAULT: Learn about our trusted dumpster rental brands and equipment. We use only the highest quality dumpsters for reliable service in [location].",
   ),
   bannerImage: getValueOrDefault(
-    brandsBannerImage,
+    `/ourBrand/${localImages.ourBrand.bannerImage}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   h1Banner: getValueOrDefault(
@@ -1543,7 +1557,7 @@ const brandsContent: any = {
     "DEFAULT: We partner with the most reliable brands in the industry to ensure you get quality dumpsters and professional service every time in [location].",
   ),
   h2Image: getValueOrDefault(
-    brandsh2Image,
+    `/ourBrand/${localImages.ourBrand.h2Image}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   brandslist: (() => {
@@ -1727,7 +1741,7 @@ const servicePageContent: any = {
     "DEFAULT: Professional Dumpster Rental Services",
   ),
   bannerImage: getValueOrDefault(
-    serviceBannerImage,
+    `/servicePage/${localImages.servicePage.bannerImage}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   h1Banner: getValueOrDefault(
@@ -1835,7 +1849,7 @@ const typesJsonContent: any = {
     "DEFAULT: Choose the Right Dumpster Size",
   ),
   bannerImage: getValueOrDefault(
-    portableBannerImage,
+    `/typesPage/${localImages.typesPage.bannerImage}`,
     "https://ik.imagekit.io/h7rza8886p/Default1.jpg?updatedAt=1757319001930",
   ),
   h1Banner: getValueOrDefault(
@@ -2219,30 +2233,5 @@ const content: {
   ),
 };
 
-// DEFAULT: Enhanced debug logging to help troubleshoot content loading with comprehensive details
-// if (typeof window === 'undefined') {
-//   console.log('DEFAULT: Content processing summary:', {
-//     aboutContentKeys: Object.keys(content.aboutContent),
-//     contactContentKeys: Object.keys(content.contactContent),
-//     blogPostsCount: content.blogContent?.posts?.length || 0,
-//     blogCategoriesCount: Object.keys(content.blogCategoryMetaMap).length,
-//     homeContentKeys: Object.keys(content.homePageContent),
-//     locationContentKeys: Object.keys(content.locationPageContent),
-//     brandsContentKeys: Object.keys(content.brandsContent),
-//     serviceContentKeys: Object.keys(content.servicePageContent),
-//     typesContentKeys: Object.keys(content.typesJsonContent),
-//     subdomainLocationsCount: Object.keys(content.subDomainUrlContent).length,
-//     missionSectionLength: content.aboutContent?.missionSection?.length || 0,
-//     hasAreaweserveSection: !!content.aboutContent?.areaweserveSection,
-//     faqCount: content.homePageContent?.faq?.length || 0,
-//     reviewsCount: content.homePageContent?.reviews?.length || 0,
-//     whyChooseDataCount: content.homePageContent?.whyChooseSection?.whyChooseData?.length || 0,
-//     processStepsCount: content.homePageContent?.processWidget?.steps?.length || 0,
-//     affordableCardsCount: content.homePageContent?.affordableWidget?.cards?.length || 0,
-//     serviceListsCount: content.servicePageContent?.serviceData?.lists?.length || 0,
-//     typesListsCount: content.typesJsonContent?.serviceData?.lists?.length || 0,
-//     brandsListCount: content.brandsContent?.brandslist?.length || 0
-//   });
-// }
-
+// DEFAULT: Enhanced utility function to replace placeholders in strings with comprehensive error handling
 export default content;
